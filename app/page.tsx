@@ -17,12 +17,12 @@ export default async function Home() {
 
     return (
         <div className="w-full heritage-surface heritage-paper">
-            <section className="container-main py-16 md:py-24 text-center">
+            <section className="container-main py-12 md:py-24 text-center">
                 <p className="section-kicker mb-5">Digital Heritage Archive</p>
-                <h1 className="text-5xl md:text-6xl font-serif font-bold text-slate-900 mb-6">
+                <h1 className="text-3xl sm:text-4xl md:text-6xl font-serif font-bold text-slate-900 mb-6">
                     Beyond a Channel. Built as Cultural Memory.
                 </h1>
-                <p className="text-lg md:text-xl text-slate-600 max-w-3xl mx-auto leading-relaxed mb-8">
+                <p className="text-base sm:text-lg md:text-xl text-slate-600 max-w-3xl mx-auto leading-relaxed mb-8">
                     The platform is shaped for deep listening, cultural research, and long-term preservation of
                     Pakistani classical and Sufi traditions.
                 </p>
@@ -79,7 +79,7 @@ export default async function Home() {
                             </div>
                             <div className="lg:col-span-3 p-7 md:p-10">
                                 <p className="section-kicker mb-4">Featured Collection</p>
-                                <h2 className="text-3xl md:text-4xl text-slate-900 mb-4">{featured.title}</h2>
+                                <h2 className="text-2xl sm:text-3xl md:text-4xl text-slate-900 mb-4">{featured.title}</h2>
                                 <p className="text-slate-600 leading-relaxed mb-5">{featured.curatorNote}</p>
                                 <div className="flex flex-wrap gap-2 mb-6">
                                     <span className="chip">{featured.tradition}</span>

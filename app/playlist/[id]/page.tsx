@@ -164,8 +164,8 @@ export default async function PlaylistPage({
                     >
                         Back to collections
                     </Link>
-                    <h1 className="text-5xl font-serif font-bold text-slate-900 mb-6">Collection Not Found</h1>
-                    <p className="text-slate-600 text-lg">The collection you are looking for does not exist.</p>
+                    <h1 className="text-3xl sm:text-4xl font-serif font-bold text-slate-900 mb-6">Collection Not Found</h1>
+                    <p className="text-slate-600 text-base sm:text-lg">The collection you are looking for does not exist.</p>
                 </div>
             </div>
         );
@@ -196,11 +196,11 @@ export default async function PlaylistPage({
                 <>
                     <section className="container-main pb-10 md:pb-12">
                         <p className="section-kicker mb-4">Collection</p>
-                        <h1 className="text-5xl md:text-6xl font-serif font-bold text-slate-900 mb-5 heading-gold-accent">
+                        <h1 className="text-3xl sm:text-4xl md:text-6xl font-serif font-bold text-slate-900 mb-5 heading-gold-accent break-words">
                             {playlist.title}
                         </h1>
                         {playlist.description && (
-                            <p className="text-lg text-slate-600 leading-relaxed max-w-3xl mt-6">
+                            <p className="text-base sm:text-lg text-slate-600 leading-relaxed max-w-3xl mt-6">
                                 {playlist.description}
                             </p>
                         )}

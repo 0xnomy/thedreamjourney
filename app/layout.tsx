@@ -71,10 +71,10 @@ export default function RootLayout({
         <html lang="en" className={`${playfair.variable} ${inter.variable}`}>
             <body className="bg-cream text-slate-900 font-sans flex flex-col min-h-screen">
                 <nav className="sticky top-0 z-50 bg-cream border-b border-border-light backdrop-blur-sm bg-opacity-95">
-                    <div className="container-main py-4 md:py-6 flex items-center justify-between gap-4">
+                    <div className="container-main py-3 md:py-6 flex flex-col items-start gap-3 sm:flex-row sm:items-center sm:justify-between sm:gap-4">
                         <Link
                             href="/"
-                            className="text-2xl md:text-3xl font-serif font-bold text-amber-900 hover:text-amber-700 transition-colors duration-200"
+                            className="text-xl sm:text-2xl md:text-3xl font-serif font-bold text-amber-900 hover:text-amber-700 transition-colors duration-200"
                         >
                             {SITE_NAME}
                         </Link>

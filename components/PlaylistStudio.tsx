@@ -82,13 +82,13 @@ export default function PlaylistStudio({
             <div className="mb-8 md:mb-10 flex flex-col md:flex-row md:items-end md:justify-between gap-5">
                 <div>
                     <p className="section-kicker mb-3">Listen Mode</p>
-                    <h2 className="text-3xl md:text-4xl font-serif font-bold text-slate-900">
+                    <h2 className="text-2xl sm:text-3xl md:text-4xl font-serif font-bold text-slate-900">
                         Curated Playback
                     </h2>
                     <p className="text-sm text-slate-500 mt-2">Use left/right arrows to move through performances.</p>
                 </div>
 
-                <div className="flex items-center gap-3">
+                <div className="flex flex-wrap items-center gap-3">
                     <button
                         type="button"
                         onClick={() => setTimelineMode('newest')}
@@ -125,9 +125,9 @@ export default function PlaylistStudio({
                     </div>
 
                     <div className="mt-5">
-                        <div className="flex items-center justify-between gap-4 mb-2">
+                        <div className="flex flex-col gap-3 mb-2 sm:flex-row sm:items-center sm:justify-between">
                             <p className="text-sm text-slate-500">Published {activeDate}</p>
-                            <div className="flex items-center gap-2">
+                            <div className="flex items-center gap-2 self-start sm:self-auto">
                                 <button
                                     type="button"
                                     onClick={() => setActiveIndex((prev) => Math.max(prev - 1, 0))}
@@ -146,7 +146,7 @@ export default function PlaylistStudio({
                                 </button>
                             </div>
                         </div>
-                        <h3 className="text-xl md:text-2xl font-serif font-bold text-slate-900 mb-3">
+                        <h3 className="text-lg sm:text-xl md:text-2xl font-serif font-bold text-slate-900 mb-3 break-words">
                             {activeVideo.title}
                         </h3>
                         {activeVideo.description && (
@@ -180,7 +180,7 @@ export default function PlaylistStudio({
                     </div>
 
                     <div className="rounded-lg border border-border-light bg-white p-2">
-                        <ol className="max-h-[500px] overflow-y-auto divide-y divide-border-light">
+                        <ol className="max-h-[420px] md:max-h-[500px] overflow-y-auto divide-y divide-border-light">
                             {orderedVideos.map((video, index) => {
                                 const published = new Date(video.published_at).toLocaleDateString('en-US', {
                                     year: 'numeric',
@@ -197,7 +197,9 @@ export default function PlaylistStudio({
                                             className={`w-full text-left px-3 py-3 rounded-md ${isActive ? 'bg-amber-900/10' : 'hover:bg-slate-50'
                                                 }`}
                                         >
-                                            <p className={`text-sm font-semibold ${isActive ? 'text-amber-900' : 'text-slate-900'}`}>
+                                            <p
+                                                className={`text-sm font-semibold break-words ${isActive ? 'text-amber-900' : 'text-slate-900'}`}
+                                            >
                                                 {video.title}
                                             </p>
                                             <p className="text-xs text-slate-500 mt-1">{published}</p>
