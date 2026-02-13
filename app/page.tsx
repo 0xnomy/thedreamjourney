@@ -36,32 +36,6 @@ export default async function Home() {
                 </div>
             </section>
 
-            <section className="container-main pb-10 md:pb-12">
-                <div className="grid grid-cols-1 md:grid-cols-3 gap-5 md:gap-6">
-                    <article className="bg-white border border-border-light rounded-lg p-6">
-                        <p className="section-kicker mb-3">Core Use Case</p>
-                        <h2 className="text-2xl text-slate-900 mb-3">Research + Guided Listening</h2>
-                        <p className="text-slate-600 text-sm md:text-base leading-relaxed">
-                            Collections are organized as study-ready records with context, chronology, and repeatable navigation.
-                        </p>
-                    </article>
-                    <article className="bg-white border border-border-light rounded-lg p-6">
-                        <p className="section-kicker mb-3">Distinctive Value</p>
-                        <h2 className="text-2xl text-slate-900 mb-3">Contextual Archive Layer</h2>
-                        <p className="text-slate-600 text-sm md:text-base leading-relaxed">
-                            Each collection combines metadata, curation, and structured discovery rather than plain playlist mirroring.
-                        </p>
-                    </article>
-                    <article className="bg-white border border-border-light rounded-lg p-6">
-                        <p className="section-kicker mb-3">Future-Ready</p>
-                        <h2 className="text-2xl text-slate-900 mb-3">Lyrics + Poetry Expansion</h2>
-                        <p className="text-slate-600 text-sm md:text-base leading-relaxed">
-                            The archive now includes a dedicated lyrics route for qawwali poetry, translations, and annotations.
-                        </p>
-                    </article>
-                </div>
-            </section>
-
             {featured && (
                 <section className="container-main pb-12 md:pb-14">
                     <div className="rounded-lg overflow-hidden border border-border-light bg-white">
