@@ -7,6 +7,8 @@ import { absoluteUrl, getBaseUrl, SITE_NAME } from '@/lib/site';
 import { isValidYouTubeVideoId } from '@/lib/youtube';
 import { generateCuratorNote, generateGlossary } from '@/lib/groq';
 
+export const dynamic = 'force-dynamic';
+
 interface Playlist {
     id: string;
     title: string;

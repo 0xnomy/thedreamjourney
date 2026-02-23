@@ -2,6 +2,8 @@ import Link from 'next/link';
 import { getArchiveCards } from '@/lib/archive-data';
 import PlaylistsGrid from '@/components/PlaylistsGrid';
 
+export const dynamic = 'force-dynamic';
+
 export default async function Home() {
     let playlistCards = [];
     let error: string | null = null;

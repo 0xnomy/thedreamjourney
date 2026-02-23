@@ -5,6 +5,8 @@ import { absoluteUrl, getBaseUrl, SITE_NAME } from '@/lib/site';
 
 const baseUrl = getBaseUrl();
 
+export const dynamic = 'force-dynamic';
+
 export const metadata: Metadata = {
     title: `Qawwali Index | ${SITE_NAME}`,
     description: 'Browse all indexed qawwali collections in The Dream Journey Archive.',
