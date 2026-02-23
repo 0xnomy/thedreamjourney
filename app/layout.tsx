@@ -97,7 +97,7 @@ export default function RootLayout({
                             >
                                 0xnomy
                             </a>{' '}
-                            for the love of classic music.
+                            for the love of classical music.
                         </p>
                         <p className="text-xs md:text-sm text-slate-500 mt-4">
                             &copy; 2026 {SITE_NAME}. All rights reserved.
