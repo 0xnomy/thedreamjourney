@@ -5,6 +5,7 @@ import PlaylistStudio from '@/components/PlaylistStudio';
 import { supabase } from '@/lib/supabase';
 import { absoluteUrl, getBaseUrl, SITE_NAME } from '@/lib/site';
 import { isValidYouTubeVideoId } from '@/lib/youtube';
+import { generateCuratorNote, generateGlossary } from '@/lib/groq';
 
 interface Playlist {
     id: string;
@@ -117,6 +118,8 @@ export default async function PlaylistPage({
     let playlist: Playlist | null = null;
     let videos: Video[] = [];
     let error: string | null = null;
+    let curatorNote: string | null = null;
+    let glossary: Array<{ term: string; definition: string }> = [];
 
     try {
         const { data, error: playlistError } = await supabase
@@ -147,6 +150,30 @@ export default async function PlaylistPage({
                 error = videoError.message;
             } else {
                 videos = (data || []).filter((video) => isValidYouTubeVideoId(video.youtube_video_id));
+
+                // Generate AI content (server-side only)
+                if (videos.length > 0) {
+                    try {
+                        const videoInputs = videos.map((v) => ({
+                            title: v.title,
+                            description: v.description || '',
+                        }));
+
+                        // Generate curator note
+                        curatorNote = await generateCuratorNote(
+                            id,
+                            playlist.title,
+                            playlist.description || '',
+                            videoInputs,
+                        );
+
+                        // Generate glossary
+                        glossary = await generateGlossary(id, videoInputs);
+                    } catch (aiError) {
+                        console.error('AI generation failed:', aiError);
+                        // Continue without AI content
+                    }
+                }
             }
         } catch (err) {
             console.error('Unexpected error fetching videos:', err);
@@ -178,7 +205,36 @@ export default async function PlaylistPage({
                     href="/"
                     className="text-amber-900 hover:text-amber-700 transition-colors duration-200 inline-flex items-center mb-8"
                 >
-                    Back to collections
+                    Back to co
+
+                    {curatorNote && (
+                        <section className="container-main pb-10 md:pb-12">
+                            <p className="section-kicker mb-3">Curator Note</p>
+                            <div className="prose prose-slate max-w-3xl">
+                                <p className="text-base sm:text-lg text-slate-700 leading-relaxed">
+                                    {curatorNote}
+                                </p>
+                            </div>
+                        </section>
+                    )}
+
+                    {glossary.length > 0 && (
+                        <section className="container-main pb-10 md:pb-12">
+                            <p className="section-kicker mb-4">Musical Terms</p>
+                            <dl className="space-y-4 max-w-3xl">
+                                {glossary.map((item, index) => (
+                                    <div key={index} className="border-l-2 border-amber-200 pl-4">
+                                        <dt className="font-semibold text-slate-900 mb-1">
+                                            {item.term}
+                                        </dt>
+                                        <dd className="text-slate-600 text-sm sm:text-base">
+                                            {item.definition}
+                                        </dd>
+                                    </div>
+                                ))}
+                            </dl>
+                        </section>
+                    )}llections
                 </Link>
             </div>
 

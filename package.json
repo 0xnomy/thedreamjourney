@@ -6,10 +6,12 @@
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
-    "sync": "tsx scripts/sync-youtube.ts"
+    "sync": "tsx scripts/sync-youtube.ts",
+    "curate": "tsx scripts/generate-curator-notes.ts"
   },
   "dependencies": {
     "@supabase/supabase-js": "^2.95.3",
+    "groq-sdk": "^0.8.0",
     "dotenv": "^17.3.1",
     "googleapis": "^171.4.0",
     "next": "^16.1.6",

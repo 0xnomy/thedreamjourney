@@ -22,6 +22,7 @@ interface PlaylistRow {
     title: string;
     description: string;
     created_at: string;
+    curator_note?: string | null;
 }
 
 interface VideoRow {
@@ -254,7 +255,7 @@ function makeCuratorNote(card: ArchivePlaylistCard): string {
 export async function getArchiveCards(): Promise<ArchivePlaylistCard[]> {
     const { data: playlistData, error: playlistError } = await supabase
         .from('playlists')
-        .select('id, youtube_playlist_id, title, description, created_at')
+        .select('id, youtube_playlist_id, title, description, created_at, curator_note')
         .order('created_at', { ascending: false });
 
     if (playlistError) {
@@ -327,7 +328,7 @@ export async function getArchiveCards(): Promise<ArchivePlaylistCard[]> {
 
         return {
             ...card,
-            curatorNote: makeCuratorNote(card),
+            curatorNote: playlist.curator_note || makeCuratorNote(card),
         };
     });
 }

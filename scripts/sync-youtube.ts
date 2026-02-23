@@ -1,9 +1,11 @@
 import { google } from 'googleapis';
 import { createClient } from '@supabase/supabase-js';
 import dotenv from 'dotenv';
+import { generateCuratorNote } from '../lib/groq';
 
 // Load environment variables
-dotenv.config();
+dotenv.config({ path: '.env.local' });
+dotenv.config({ override: false });
 
 const YOUTUBE_API_KEY = process.env.YOUTUBE_API_KEY;
 const YOUTUBE_OAUTH_ACCESS_TOKEN = process.env.YOUTUBE_OAUTH_ACCESS_TOKEN;
@@ -15,6 +17,8 @@ const EXTRA_PLAYLIST_IDS = (process.env.EXTRA_PLAYLIST_IDS || '')
     .map((id) => id.trim())
     .filter(Boolean);
 const START_FROM_INDEX = Number(process.env.START_FROM_INDEX || '0');
+const GROQ_NOTE_DELAY_MS = Number(process.env.GROQ_NOTE_DELAY_MS || '2500');
+const GROQ_NOTES_ENABLED = Boolean(process.env.GROQ_API_KEY);
 
 if ((!YOUTUBE_API_KEY && !YOUTUBE_OAUTH_ACCESS_TOKEN) || !CHANNEL_ID || !SUPABASE_URL || !SUPABASE_SERVICE_ROLE_KEY) {
     console.error('Missing required environment variables');
@@ -28,6 +32,8 @@ const youtube = google.youtube({
 });
 
 const supabase = createClient(SUPABASE_URL, SUPABASE_SERVICE_ROLE_KEY);
+
+const sleep = (ms: number) => new Promise<void>((resolve) => setTimeout(resolve, ms));
 
 interface Playlist {
     youtube_playlist_id: string;
@@ -208,6 +214,53 @@ async function upsertVideos(videos: Video[]): Promise<number> {
     }
 }
 
+async function updateCuratorNoteForPlaylist(
+    playlistId: string,
+    playlist: Playlist,
+    videoData: Omit<Video, 'playlist_id'>[],
+): Promise<void> {
+    if (!GROQ_NOTES_ENABLED) {
+        return;
+    }
+
+    if (videoData.length === 0) {
+        return;
+    }
+
+    try {
+        const note = await generateCuratorNote(
+            playlistId,
+            playlist.title,
+            playlist.description,
+            videoData.map((video) => ({
+                title: video.title,
+                description: video.description,
+            })),
+        );
+
+        if (!note) {
+            console.warn('  Curator note skipped: empty response from Groq');
+            return;
+        }
+
+        const { error } = await supabase
+            .from('playlists')
+            .update({ curator_note: note })
+            .eq('id', playlistId);
+
+        if (error) {
+            throw error;
+        }
+
+        console.log('  Curator note updated');
+        if (GROQ_NOTE_DELAY_MS > 0) {
+            await sleep(GROQ_NOTE_DELAY_MS);
+        }
+    } catch (error) {
+        console.error('  Failed to update curator note:', error);
+    }
+}
+
 async function syncYouTubeData() {
     console.log('Starting YouTube sync...');
     console.log(`Channel ID: ${CHANNEL_ID}`);
@@ -270,6 +323,8 @@ async function syncYouTubeData() {
                     console.log(`  Inserted/Updated ${upsertedCount} videos`);
                     totalVideos += upsertedCount;
                 }
+
+                await updateCuratorNoteForPlaylist(playlistId, playlist, videoData);
 
                 successCount += 1;
             } catch (error) {
