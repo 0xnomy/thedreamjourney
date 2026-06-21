@@ -1,6 +1,7 @@
 import Link from 'next/link';
 import { getArchiveCards } from '@/lib/archive-data';
 import PlaylistsGrid from '@/components/PlaylistsGrid';
+import SufiHeritageArt from '@/components/SufiHeritageArt';
 
 export const dynamic = 'force-dynamic';
 
@@ -19,22 +20,29 @@ export default async function Home() {
 
     return (
         <div className="w-full heritage-surface heritage-paper">
-            <section className="container-main py-12 md:py-24 text-center">
-                <p className="section-kicker mb-5">Digital Heritage Archive</p>
-                <h1 className="text-3xl sm:text-4xl md:text-6xl font-serif font-bold text-slate-900 mb-6">
-                    Beyond a Channel. Built as Cultural Memory.
-                </h1>
-                <p className="text-base sm:text-lg md:text-xl text-slate-600 max-w-3xl mx-auto leading-relaxed mb-8">
-                    The platform is shaped for deep listening, cultural research, and long-term preservation of
-                    Pakistani classical and Sufi traditions.
-                </p>
-                <div className="flex flex-wrap justify-center gap-3 md:gap-4">
-                    <Link href="/qawwali" className="btn btn-primary text-sm md:text-base">
-                        Explore Qawwali Index
-                    </Link>
-                    <Link href="/lyrics" className="btn btn-secondary text-sm md:text-base">
-                        Visit Lyrics Archive
-                    </Link>
+            <section className="container-main py-12 lg:py-20">
+                <div className="grid grid-cols-1 lg:grid-cols-12 gap-10 lg:gap-12 items-center">
+                    <div className="lg:col-span-7 text-center lg:text-left">
+                        <p className="section-kicker mb-5">Digital Heritage Archive</p>
+                        <h1 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-serif font-bold text-slate-900 mb-6 leading-[1.15]">
+                            Beyond a Channel.<br className="hidden lg:block"/> Built as Cultural Memory.
+                        </h1>
+                        <p className="text-base sm:text-lg md:text-xl text-slate-600 max-w-2xl mx-auto lg:mx-0 leading-relaxed mb-8">
+                            The platform is shaped for deep listening, cultural research, and long-term preservation of
+                            Pakistani classical and Sufi traditions.
+                        </p>
+                        <div className="flex flex-wrap justify-center lg:justify-start gap-3 md:gap-4">
+                            <Link href="/qawwali" className="btn btn-primary text-sm md:text-base">
+                                Explore Qawwali Index
+                            </Link>
+                            <Link href="/lyrics" className="btn btn-secondary text-sm md:text-base">
+                                Visit Lyrics Archive
+                            </Link>
+                        </div>
+                    </div>
+                    <div className="lg:col-span-5 flex justify-center items-center">
+                        <SufiHeritageArt />
+                    </div>
                 </div>
             </section>
 

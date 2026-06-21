@@ -189,11 +189,18 @@ async function upsertPlaylist(playlist: Playlist): Promise<string> {
 async function upsertVideos(videos: Video[]): Promise<number> {
     if (videos.length === 0) return 0;
 
+    // Deduplicate videos by youtube_video_id in the insert payload to avoid PostgreSQL "ON CONFLICT DO UPDATE cannot affect row a second time" error
+    const uniqueVideosMap = new Map<string, Video>();
+    for (const video of videos) {
+        uniqueVideosMap.set(video.youtube_video_id, video);
+    }
+    const uniqueVideos = Array.from(uniqueVideosMap.values());
+
     try {
         const { error } = await supabase
             .from('videos')
             .upsert(
-                videos.map(video => ({
+                uniqueVideos.map(video => ({
                     youtube_video_id: video.youtube_video_id,
                     playlist_id: video.playlist_id,
                     title: video.title,
@@ -207,7 +214,7 @@ async function upsertVideos(videos: Video[]): Promise<number> {
             );
 
         if (error) throw error;
-        return videos.length;
+        return uniqueVideos.length;
     } catch (error) {
         console.error('Error upserting videos:', error);
         throw error;
